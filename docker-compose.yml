@@ -1,0 +1,40 @@
+version: '3'
+services:
+  keycloak:
+    hostname: keycloak
+    image: jboss/keycloak
+    ports:
+      - "8080:8080"
+    environment:
+      KEYCLOAK_USER : admin
+      KEYCLOAK_PASSWORD : admin
+      DB_VENDOR : postgres
+      DB_ADDR : db
+      DB_PORT : 5432
+      DB_DATABASE : keycloak
+      DB_USER : postgres
+      DB_PASSWORD : YGUc25N6mmGKUHGx
+      KEYCLOAK_IMPORT: /tmp/example-realm.json
+    volumes:
+      - ./config/realm-export.json:/tmp/example-realm.json
+
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - keycloak-db-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: YGUc25N6mmGKUHGx
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: postgres
+      
+volumes:
+  keycloak-db-data:
+
+
+
+
+
+
